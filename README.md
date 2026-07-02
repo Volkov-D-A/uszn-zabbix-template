@@ -1,0 +1,1 @@
+# uszn-zabbix-template
