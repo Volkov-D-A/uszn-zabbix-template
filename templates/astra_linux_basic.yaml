@@ -26,4 +26,4 @@ zabbix_export:
               expression: 'change(/Template Astra Linux Basic/vfs.file.contents[/etc/astra_version])=1'
               name: 'Astra Linux: build version has changed'
               opdata: 'Current version: {ITEM.LASTVALUE}'
-              priority: INFORMATION
+              priority: INFO
