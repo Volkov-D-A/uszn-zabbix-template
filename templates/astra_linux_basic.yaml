@@ -21,3 +21,9 @@ zabbix_export:
           history: 90d
           trends: '0'
           value_type: TEXT
+          triggers:
+            - uuid: 34ea47e8691d4673b14b02713757cce5
+              expression: 'change(/Template Astra Linux Basic/vfs.file.contents[/etc/astra_version])=1'
+              name: 'Astra Linux: build version has changed'
+              opdata: 'Current version: {ITEM.LASTVALUE}'
+              priority: INFORMATION
