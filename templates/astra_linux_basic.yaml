@@ -1,0 +1,20 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+    - uuid: 18e6d704c777453d98a6835f393755ec
+      name: Templates/USZN
+  templates:
+    - uuid: 2696cbf6209f45ea8ed58da2082a099c
+      template: 'Template Astra Linux Basic'
+      name: 'Template Astra Linux Basic'
+      groups:
+        - name: Templates/USZN
+      items:
+        - uuid: 7367c5f8babb479f9b7116bda079f31f
+          name: 'Astra Linux: build version'
+          type: ZABBIX_ACTIVE
+          key: 'vfs.file.contents[/etc/astra_version]'
+          delay: 1h
+          history: 90d
+          trends: '0'
+          value_type: TEXT
