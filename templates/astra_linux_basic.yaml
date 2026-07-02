@@ -2,13 +2,16 @@ zabbix_export:
   version: '7.0'
   template_groups:
     - uuid: 18e6d704c777453d98a6835f393755ec
-      name: Templates/USZN
+      name: 'Astra clients'
+  host_groups:
+    - uuid: 4c469bc127d64a34ba625f7f4244153f
+      name: 'Astra clients'
   templates:
     - uuid: 2696cbf6209f45ea8ed58da2082a099c
       template: 'Template Astra Linux Basic'
       name: 'Template Astra Linux Basic'
       groups:
-        - name: Templates/USZN
+        - name: 'Astra clients'
       items:
         - uuid: 7367c5f8babb479f9b7116bda079f31f
           name: 'Astra Linux: build version'
