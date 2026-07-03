@@ -27,6 +27,7 @@ zabbix_export:
               name: 'Astra Linux: build version has changed'
               opdata: 'Current version: {ITEM.LASTVALUE}'
               priority: INFO
+              manual_close: 'YES'
         - uuid: 9dd4ed1da70447d7892e70fa31143de3
           name: 'Dr.Web: config daemon active state'
           type: ZABBIX_ACTIVE
