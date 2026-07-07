@@ -42,3 +42,30 @@ zabbix_export:
               name: 'Dr.Web: config daemon is not active'
               opdata: 'Current state: {ITEM.LASTVALUE}'
               priority: HIGH
+        - uuid: f56b9719771f4e3f86d4f46405b5db1f
+          name: 'Dr.Web: base information'
+          type: ZABBIX_ACTIVE
+          key: drweb.baseinfo
+          delay: 1h
+          history: 30d
+          trends: '0'
+          value_type: TEXT
+        - uuid: dcd495409695471b8d7c8b24c0e540a8
+          name: 'Dr.Web: last successful update timestamp'
+          type: ZABBIX_ACTIVE
+          key: drweb.last_update.unixtime
+          delay: 1h
+          history: 90d
+          trends: 365d
+          value_type: UNSIGNED
+          units: unixtime
+          triggers:
+            - uuid: ddcb030dee1e45c49b60d072c077cdd1
+              expression: 'now()-last(/Template Astra Linux Basic/drweb.last_update.unixtime)>{$DRWEB.UPDATE.MAXAGE}'
+              name: 'Dr.Web: virus databases were not updated recently'
+              opdata: 'Last successful update: {ITEM.LASTVALUE}'
+              priority: WARNING
+      macros:
+        - macro: '{$DRWEB.UPDATE.MAXAGE}'
+          value: 1d
+          description: 'Maximum allowed age of the last successful Dr.Web database update.'
