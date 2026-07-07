@@ -13,27 +13,6 @@ zabbix_export:
       groups:
         - name: 'Astra clients'
       items:
-        - uuid: 9f1a51ee992f4405b76f572b1744d24a
-          name: 'ICMP ping'
-          type: SIMPLE
-          key: icmpping
-          delay: 1m
-          history: 30d
-          trends: 90d
-          value_type: UNSIGNED
-        - uuid: 2afd48e645c44695973d95ceae72c412
-          name: 'Zabbix agent ping'
-          type: ZABBIX_ACTIVE
-          key: agent.ping
-          delay: 1m
-          history: 30d
-          trends: 90d
-          value_type: UNSIGNED
-          triggers:
-            - uuid: 9a14f29f2f184476b95364f481202bdc
-              expression: 'last(/Template Astra Linux Basic/icmpping)=1 and nodata(/Template Astra Linux Basic/agent.ping,{$AGENT.NODATA})=1'
-              name: 'Zabbix agent is unavailable while host is reachable by ICMP'
-              priority: WARNING
         - uuid: 7367c5f8babb479f9b7116bda079f31f
           name: 'Astra Linux: build version'
           type: ZABBIX_ACTIVE
@@ -63,7 +42,3 @@ zabbix_export:
               name: 'Dr.Web: config daemon is not active'
               opdata: 'Current state: {ITEM.LASTVALUE}'
               priority: HIGH
-      macros:
-        - macro: '{$AGENT.NODATA}'
-          value: 10m
-          description: 'How long agent data may be absent while ICMP is available before raising a monitoring availability problem.'
