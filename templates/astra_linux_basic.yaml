@@ -45,7 +45,7 @@ zabbix_export:
         - uuid: 220dcff3c3c84ee69275509df000ab2c
           name: 'Dr.Web: database timestamp'
           type: ZABBIX_ACTIVE
-          key: 'vfs.file.contents[/opt/drweb.com/bases/timestamp]'
+          key: 'vfs.file.contents[/var/opt/drweb.com/bases/timestamp]'
           delay: 1h
           history: 90d
           trends: 365d
@@ -53,7 +53,7 @@ zabbix_export:
           units: unixtime
           triggers:
             - uuid: 7c797227da5e49428c889b10dd80bd3e
-              expression: 'now()-last(/Template Astra Linux Basic/vfs.file.contents[/opt/drweb.com/bases/timestamp])>{$DRWEB.BASES.MAXAGE} and nodata(/Template Astra Linux Basic/vfs.file.contents[/opt/drweb.com/bases/timestamp],{$DRWEB.BASES.NODATA})=0'
+              expression: 'now()-last(/Template Astra Linux Basic/vfs.file.contents[/var/opt/drweb.com/bases/timestamp])>{$DRWEB.BASES.MAXAGE} and nodata(/Template Astra Linux Basic/vfs.file.contents[/var/opt/drweb.com/bases/timestamp],{$DRWEB.BASES.NODATA})=0'
               name: 'Dr.Web: database timestamp is too old'
               opdata: 'Database timestamp: {ITEM.LASTVALUE}'
               priority: WARNING
