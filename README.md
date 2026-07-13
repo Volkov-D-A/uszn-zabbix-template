@@ -21,3 +21,11 @@ vfs.file.contents[/etc/astra_version]
 ```text
 templates/astra_linux_basic.yaml
 ```
+
+## Документация
+
+Текущее состояние шаблона:
+
+```text
+docs/current-template-state.md
+```

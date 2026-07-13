@@ -21,6 +21,13 @@ zabbix_export:
           history: 90d
           trends: '0'
           value_type: TEXT
+          tags:
+            - tag: scope
+              value: security
+            - tag: component
+              value: os
+            - tag: control
+              value: inventory
           triggers:
             - uuid: 34ea47e8691d4673b14b02713757cce5
               expression: 'change(/Template Astra Linux Basic/vfs.file.contents[/etc/astra_version])=1'
@@ -28,6 +35,13 @@ zabbix_export:
               opdata: 'Current version: {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
+              tags:
+                - tag: scope
+                  value: security
+                - tag: component
+                  value: os
+                - tag: control
+                  value: inventory
         - uuid: 9dd4ed1da70447d7892e70fa31143de3
           name: 'Dr.Web: config daemon active state'
           type: ZABBIX_ACTIVE
@@ -36,12 +50,110 @@ zabbix_export:
           history: 30d
           trends: '0'
           value_type: CHAR
+          tags:
+            - tag: scope
+              value: security
+            - tag: component
+              value: drweb
+            - tag: control
+              value: availability
           triggers:
             - uuid: e63a2a31391644708d0577f00a2d477a
               expression: 'last(/Template Astra Linux Basic/systemd.unit.info[drweb-configd.service,ActiveState])<>"active"'
               name: 'Dr.Web: config daemon is not active'
               opdata: 'Current state: {ITEM.LASTVALUE}'
               priority: HIGH
+              tags:
+                - tag: scope
+                  value: security
+                - tag: component
+                  value: drweb
+                - tag: control
+                  value: availability
+        - uuid: 7aa4d0cfc9dc49d8aac440089a00c66a
+          name: 'Audit: auditd active state'
+          type: ZABBIX_ACTIVE
+          key: 'systemd.unit.info[auditd.service,ActiveState]'
+          delay: 1m
+          history: 30d
+          trends: '0'
+          value_type: CHAR
+          tags:
+            - tag: scope
+              value: security
+            - tag: component
+              value: audit
+            - tag: control
+              value: availability
+          triggers:
+            - uuid: 480f7d434e3043529ee51b7f6697773e
+              expression: 'last(/Template Astra Linux Basic/systemd.unit.info[auditd.service,ActiveState])<>"active"'
+              name: 'Audit: auditd service is not active'
+              opdata: 'Current state: {ITEM.LASTVALUE}'
+              priority: HIGH
+              tags:
+                - tag: scope
+                  value: security
+                - tag: component
+                  value: audit
+                - tag: control
+                  value: availability
+        - uuid: 408dc5e524874e149ba8f53f537da7de
+          name: 'Time sync: systemd-timesyncd active state'
+          type: ZABBIX_ACTIVE
+          key: 'systemd.unit.info[systemd-timesyncd.service,ActiveState]'
+          delay: 1m
+          history: 30d
+          trends: '0'
+          value_type: CHAR
+          tags:
+            - tag: scope
+              value: security
+            - tag: component
+              value: time
+            - tag: control
+              value: availability
+          triggers:
+            - uuid: 6d62336364f54ca49960b202d270c220
+              expression: 'last(/Template Astra Linux Basic/systemd.unit.info[systemd-timesyncd.service,ActiveState])<>"active"'
+              name: 'Time sync: systemd-timesyncd service is not active'
+              opdata: 'Current state: {ITEM.LASTVALUE}'
+              priority: WARNING
+              tags:
+                - tag: scope
+                  value: security
+                - tag: component
+                  value: time
+                - tag: control
+                  value: availability
+        - uuid: c20a4246a6f8462b9c68fe03daf3a28d
+          name: 'Updates: astra-update-service active state'
+          type: ZABBIX_ACTIVE
+          key: 'systemd.unit.info[astra-update-service.service,ActiveState]'
+          delay: 1m
+          history: 30d
+          trends: '0'
+          value_type: CHAR
+          tags:
+            - tag: scope
+              value: security
+            - tag: component
+              value: updates
+            - tag: control
+              value: availability
+          triggers:
+            - uuid: 387e7d1c25c545b9b3ed966c97ac417a
+              expression: 'last(/Template Astra Linux Basic/systemd.unit.info[astra-update-service.service,ActiveState])<>"active"'
+              name: 'Updates: astra-update-service is not active'
+              opdata: 'Current state: {ITEM.LASTVALUE}'
+              priority: WARNING
+              tags:
+                - tag: scope
+                  value: security
+                - tag: component
+                  value: updates
+                - tag: control
+                  value: availability
         - uuid: 220dcff3c3c84ee69275509df000ab2c
           name: 'Dr.Web: today database file modification time'
           type: ZABBIX_ACTIVE
@@ -51,12 +163,26 @@ zabbix_export:
           trends: 365d
           value_type: UNSIGNED
           units: unixtime
+          tags:
+            - tag: scope
+              value: security
+            - tag: component
+              value: drweb
+            - tag: control
+              value: freshness
           triggers:
             - uuid: 7c797227da5e49428c889b10dd80bd3e
               expression: 'now()-last(/Template Astra Linux Basic/vfs.file.time[/var/opt/drweb.com/bases/dwrtoday.vdb,modify])>{$DRWEB.BASES.MAXAGE} and nodata(/Template Astra Linux Basic/vfs.file.time[/var/opt/drweb.com/bases/dwrtoday.vdb,modify],{$DRWEB.BASES.NODATA})=0'
               name: 'Dr.Web: today database file was not updated recently'
               opdata: 'File modification time: {ITEM.LASTVALUE}'
               priority: WARNING
+              tags:
+                - tag: scope
+                  value: security
+                - tag: component
+                  value: drweb
+                - tag: control
+                  value: freshness
       macros:
         - macro: '{$DRWEB.BASES.MAXAGE}'
           value: 2d
