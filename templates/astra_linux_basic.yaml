@@ -42,7 +42,7 @@ zabbix_export:
                   value: os
                 - tag: control
                   value: inventory
-        - uuid: f8c279d154181d78c72e7b187b590c38
+        - uuid: 8ac3ee7699ce4ab2bef493a721f99c14
           name: 'Linux: kernel version'
           type: ZABBIX_ACTIVE
           key: 'system.sw.os[full]'
@@ -63,7 +63,7 @@ zabbix_export:
             - tag: control
               value: inventory
           triggers:
-            - uuid: 6cbd11a18d89a9d571e7d2c219d6d344
+            - uuid: 1daf688f924b4aeaacb978142f929a28
               expression: 'change(/Template Astra Linux Basic/system.sw.os[full])=1'
               name: 'Linux: kernel version has changed'
               opdata: 'Current version: {ITEM.LASTVALUE}'
