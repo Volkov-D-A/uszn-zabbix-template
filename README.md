@@ -16,6 +16,17 @@
 vfs.file.contents[/etc/astra_version]
 ```
 
+## Шаг 02. Версия ядра Linux
+
+Версия текущего ядра получается штатным ключом Zabbix agent:
+
+```text
+system.sw.os[full]
+```
+
+Предобработка извлекает из `/proc/version` только release ядра.
+При его изменении Zabbix создаёт информационное событие.
+
 Минимальный шаблон:
 
 ```text

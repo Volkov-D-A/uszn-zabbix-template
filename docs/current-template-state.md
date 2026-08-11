@@ -86,6 +86,52 @@ manual_close: YES
 
 Триггер фиксирует факт изменения версии ОС. Это аудиторское событие, а не авария.
 
+### Версия ядра Linux
+
+Item:
+
+```text
+Linux: kernel version
+```
+
+Key:
+
+```text
+system.sw.os[full]
+```
+
+Предобработка:
+
+```text
+^Linux version (\S+).* -> \1
+```
+
+В Latest data хранится только release загруженного ядра, например:
+
+```text
+6.1.0-35-amd64
+```
+
+Trigger:
+
+```text
+Linux: kernel version has changed
+```
+
+Severity:
+
+```text
+INFO
+```
+
+Особенность:
+
+```text
+manual_close: YES
+```
+
+Триггер фиксирует смену загруженного ядра как аудиторское событие.
+
 ### Dr.Web: основная служба
 
 Item:
@@ -357,18 +403,9 @@ icmpping
 шаблон держать focused на security-состоянии Astra Linux.
 ```
 
-## Текущие незакоммиченные изменения
+## Проверка рабочего состояния
 
-На момент написания этого документа в шаблоне еще не закоммичены:
-
-```text
-теги item/trigger;
-auditd.service;
-systemd-timesyncd.service;
-astra-update-service.service.
-```
-
-Перед продолжением в другом контексте стоит проверить:
+Перед продолжением разработки стоит проверить:
 
 ```bash
 git status --short

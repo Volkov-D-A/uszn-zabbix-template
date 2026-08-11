@@ -42,6 +42,40 @@ zabbix_export:
                   value: os
                 - tag: control
                   value: inventory
+        - uuid: f8c279d154181d78c72e7b187b590c38
+          name: 'Linux: kernel version'
+          type: ZABBIX_ACTIVE
+          key: 'system.sw.os[full]'
+          delay: 1h
+          history: 90d
+          trends: '0'
+          value_type: CHAR
+          preprocessing:
+            - type: REGEX
+              parameters:
+                - '^Linux version (\S+).*'
+                - '\1'
+          tags:
+            - tag: scope
+              value: security
+            - tag: component
+              value: os
+            - tag: control
+              value: inventory
+          triggers:
+            - uuid: 6cbd11a18d89a9d571e7d2c219d6d344
+              expression: 'change(/Template Astra Linux Basic/system.sw.os[full])=1'
+              name: 'Linux: kernel version has changed'
+              opdata: 'Current version: {ITEM.LASTVALUE}'
+              priority: INFO
+              manual_close: 'YES'
+              tags:
+                - tag: scope
+                  value: security
+                - tag: component
+                  value: os
+                - tag: control
+                  value: inventory
         - uuid: 9dd4ed1da70447d7892e70fa31143de3
           name: 'Dr.Web: config daemon active state'
           type: ZABBIX_ACTIVE
