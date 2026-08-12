@@ -27,3 +27,23 @@ zabbix_export:
               value: audit
             - tag: control
               value: event
+          triggers:
+            - uuid: c8140bd0626e43a1a8a9eda1ad5875c1
+              expression: 'sum(/Template Astra Linux Audit/logrt.count["/var/log/audit/^audit\.log(\.[0-9]+)?$","type=(USER_AUTH|USER_LOGIN).*res=failed","UTF-8",1000,skip],{$AUDIT.AUTH.FAIL.WINDOW})>={$AUDIT.AUTH.FAIL.WARN}'
+              name: 'Audit: repeated failed authentication attempts'
+              opdata: 'Failed records in the latest item interval: {ITEM.LASTVALUE}'
+              priority: WARNING
+              tags:
+                - tag: scope
+                  value: security
+                - tag: component
+                  value: audit
+                - tag: control
+                  value: event
+      macros:
+        - macro: '{$AUDIT.AUTH.FAIL.WARN}'
+          value: '5'
+          description: 'Number of failed authentication audit records that raises a warning.'
+        - macro: '{$AUDIT.AUTH.FAIL.WINDOW}'
+          value: 5m
+          description: 'Time window used to count failed authentication audit records.'
