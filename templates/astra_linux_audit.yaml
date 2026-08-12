@@ -27,6 +27,19 @@ zabbix_export:
               value: audit
             - tag: control
               value: event
+          triggers:
+            - uuid: a6ac6b543afc4c09a5e3d94170618583
+              expression: 'last(/Template Astra Linux Audit/logrt.count["/var/log/audit/^audit\.log(\.[0-9]+)?$","type=(DAEMON_ABORT|DAEMON_ERR)","UTF-8",1000,skip])>0'
+              name: 'Аудит: обнаружена ошибка службы auditd'
+              opdata: 'Ошибок за последний интервал: {ITEM.LASTVALUE}'
+              priority: HIGH
+              tags:
+                - tag: scope
+                  value: security
+                - tag: component
+                  value: audit
+                - tag: control
+                  value: event
         - uuid: 3ff17b8d5eb741eea3d35944451f6e97
           name: 'Аудит: количество ошибок аутентификации'
           type: ZABBIX_ACTIVE
