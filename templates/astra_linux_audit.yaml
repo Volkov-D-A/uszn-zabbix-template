@@ -11,6 +11,22 @@ zabbix_export:
       groups:
         - name: 'Astra clients'
       items:
+        - uuid: 80ebd3b9133f41efa44bcf0106477f47
+          name: 'Аудит: количество изменений конфигурации безопасности'
+          type: ZABBIX_ACTIVE
+          key: 'logrt.count["/var/log/audit/^audit\.log(\.[0-9]+)?$","type=(USYS_CONFIG|DAEMON_CONFIG|CONFIG_CHANGE|MAC_CONFIG_CHANGE|USER_MAC_CONFIG_CHANGE)","UTF-8",1000,skip]'
+          delay: 30s
+          history: 30d
+          trends: 365d
+          value_type: UNSIGNED
+          description: 'Количество новых записей об изменении конфигурации безопасности, обнаруженных в журнале аудита за интервал опроса.'
+          tags:
+            - tag: scope
+              value: security
+            - tag: component
+              value: audit
+            - tag: control
+              value: event
         - uuid: f61b54a50bf549f18d62601b8056bcbc
           name: 'Аудит: количество ошибок службы auditd'
           type: ZABBIX_ACTIVE
