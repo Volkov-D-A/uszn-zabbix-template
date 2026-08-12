@@ -12,14 +12,47 @@ zabbix_export:
         - name: 'Astra clients'
       items:
         - uuid: 80ebd3b9133f41efa44bcf0106477f47
-          name: 'Аудит: количество изменений конфигурации безопасности'
+          name: 'Аудит: количество изменений конфигурации, требующих проверки'
           type: ZABBIX_ACTIVE
-          key: 'logrt.count["/var/log/audit/^audit\.log(\.[0-9]+)?$","type=(USYS_CONFIG|DAEMON_CONFIG|CONFIG_CHANGE|MAC_CONFIG_CHANGE|USER_MAC_CONFIG_CHANGE)","UTF-8",1000,skip]'
+          key: 'logrt.count["/var/log/audit/^audit\.log(\.[0-9]+)?$","^(?!(?=.*type=CONFIG_CHANGE)(?=.*auid=4294967295)(?=.*res=1([[:space:]]|$))(?=.*(op=add_rule|op=set audit_(backlog_limit|backlog_wait_time|failure)=))).*type=(USYS_CONFIG|DAEMON_CONFIG|CONFIG_CHANGE|MAC_CONFIG_CHANGE|USER_MAC_CONFIG_CHANGE)","UTF-8",1000,skip]'
           delay: 30s
           history: 30d
           trends: 365d
           value_type: UNSIGNED
-          description: 'Количество новых записей об изменении конфигурации безопасности, обнаруженных в журнале аудита за интервал опроса.'
+          description: 'Количество новых записей об изменении конфигурации безопасности за интервал опроса. Исключаются подтвержденные штатные записи загрузки auditd: успешное добавление правил и установка параметров backlog_limit, backlog_wait_time и failure при неустановленном auid.'
+          tags:
+            - tag: scope
+              value: security
+            - tag: component
+              value: audit
+            - tag: control
+              value: event
+          triggers:
+            - uuid: bc5379e50d7342bebac906e29a20845b
+              expression: 'last(/Template Astra Linux Audit/logrt.count["/var/log/audit/^audit\.log(\.[0-9]+)?$","^(?!(?=.*type=CONFIG_CHANGE)(?=.*auid=4294967295)(?=.*res=1([[:space:]]|$))(?=.*(op=add_rule|op=set audit_(backlog_limit|backlog_wait_time|failure)=))).*type=(USYS_CONFIG|DAEMON_CONFIG|CONFIG_CHANGE|MAC_CONFIG_CHANGE|USER_MAC_CONFIG_CHANGE)","UTF-8",1000,skip])>0'
+              name: 'Аудит: обнаружено изменение конфигурации безопасности'
+              opdata: 'Событий за последний интервал: {ITEM.VALUE}'
+              priority: INFO
+              description: 'Обнаружены записи об изменении конфигурации подсистем безопасности, не отнесенные к подтвержденной штатной загрузке auditd. Проверьте элемент данных "Аудит: события изменения конфигурации безопасности", определите инициатора и характер изменения, затем закройте проблему вручную.'
+              type: SINGLE
+              recovery_mode: NONE
+              manual_close: 'YES'
+              tags:
+                - tag: scope
+                  value: security
+                - tag: component
+                  value: audit
+                - tag: control
+                  value: event
+        - uuid: 88528829b077496a9e6470f1a048225f
+          name: 'Аудит: события изменения конфигурации безопасности'
+          type: ZABBIX_ACTIVE
+          key: 'logrt["/var/log/audit/^audit\.log(\.[0-9]+)?$","type=(USYS_CONFIG|DAEMON_CONFIG|CONFIG_CHANGE|MAC_CONFIG_CHANGE|USER_MAC_CONFIG_CHANGE)","UTF-8",1000,skip]'
+          delay: 30s
+          history: 30d
+          trends: '0'
+          value_type: LOG
+          description: 'Исходные записи об изменении конфигурации подсистем безопасности для анализа инициатора и характера изменения.'
           tags:
             - tag: scope
               value: security
