@@ -1,0 +1,29 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+    - uuid: 18e6d704c777453d98a6835f393755ec
+      name: 'Astra clients'
+  templates:
+    - uuid: 080bf8fe907c48669d5c663475c52fcb
+      template: 'Template Astra Linux Audit'
+      name: 'Template Astra Linux Audit'
+      description: 'Security event monitoring based on the Astra Linux audit log.'
+      groups:
+        - name: 'Astra clients'
+      items:
+        - uuid: 3ff17b8d5eb741eea3d35944451f6e97
+          name: 'Audit: failed authentication events count'
+          type: ZABBIX_ACTIVE
+          key: 'logrt.count["/var/log/audit/^audit\.log(\.[0-9]+)?$","type=(USER_AUTH|USER_LOGIN).*res=failed","UTF-8",1000,skip]'
+          delay: 30s
+          history: 30d
+          trends: 365d
+          value_type: UNSIGNED
+          description: 'Number of new failed USER_AUTH or USER_LOGIN records found in the audit log during the item update interval.'
+          tags:
+            - tag: scope
+              value: security
+            - tag: component
+              value: audit
+            - tag: control
+              value: event
