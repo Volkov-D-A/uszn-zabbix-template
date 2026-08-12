@@ -9,12 +9,13 @@ zabbix_export:
   templates:
     - uuid: 2696cbf6209f45ea8ed58da2082a099c
       template: 'Template Astra Linux Basic'
-      name: 'Template Astra Linux Basic'
+      name: 'Astra Linux: базовый контроль безопасности'
+      description: 'Базовый контроль версии ОС, ядра и состояния служб безопасности Astra Linux.'
       groups:
         - name: 'Astra clients'
       items:
         - uuid: 7367c5f8babb479f9b7116bda079f31f
-          name: 'Astra Linux: build version'
+          name: 'Astra Linux: версия сборки'
           type: ZABBIX_ACTIVE
           key: 'vfs.file.contents[/etc/astra_version]'
           delay: 1h
@@ -31,8 +32,8 @@ zabbix_export:
           triggers:
             - uuid: 34ea47e8691d4673b14b02713757cce5
               expression: 'change(/Template Astra Linux Basic/vfs.file.contents[/etc/astra_version])=1'
-              name: 'Astra Linux: build version has changed'
-              opdata: 'Current version: {ITEM.LASTVALUE}'
+              name: 'Astra Linux: изменилась версия сборки'
+              opdata: 'Текущая версия: {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
               tags:
@@ -43,7 +44,7 @@ zabbix_export:
                 - tag: control
                   value: inventory
         - uuid: 8ac3ee7699ce4ab2bef493a721f99c14
-          name: 'Linux: kernel version'
+          name: 'Linux: версия ядра'
           type: ZABBIX_ACTIVE
           key: 'system.sw.os[full]'
           delay: 1h
@@ -65,8 +66,8 @@ zabbix_export:
           triggers:
             - uuid: 1daf688f924b4aeaacb978142f929a28
               expression: 'change(/Template Astra Linux Basic/system.sw.os[full])=1'
-              name: 'Linux: kernel version has changed'
-              opdata: 'Current version: {ITEM.LASTVALUE}'
+              name: 'Linux: изменилась версия ядра'
+              opdata: 'Текущая версия: {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
               tags:
@@ -77,7 +78,7 @@ zabbix_export:
                 - tag: control
                   value: inventory
         - uuid: 9dd4ed1da70447d7892e70fa31143de3
-          name: 'Dr.Web: config daemon active state'
+          name: 'Dr.Web: состояние службы конфигурации'
           type: ZABBIX_ACTIVE
           key: 'systemd.unit.info[drweb-configd.service,ActiveState]'
           delay: 1m
@@ -94,8 +95,8 @@ zabbix_export:
           triggers:
             - uuid: e63a2a31391644708d0577f00a2d477a
               expression: 'last(/Template Astra Linux Basic/systemd.unit.info[drweb-configd.service,ActiveState])<>"active"'
-              name: 'Dr.Web: config daemon is not active'
-              opdata: 'Current state: {ITEM.LASTVALUE}'
+              name: 'Dr.Web: служба конфигурации не активна'
+              opdata: 'Текущее состояние: {ITEM.LASTVALUE}'
               priority: HIGH
               tags:
                 - tag: scope
@@ -105,7 +106,7 @@ zabbix_export:
                 - tag: control
                   value: availability
         - uuid: 7aa4d0cfc9dc49d8aac440089a00c66a
-          name: 'Audit: auditd active state'
+          name: 'Аудит: состояние службы auditd'
           type: ZABBIX_ACTIVE
           key: 'systemd.unit.info[auditd.service,ActiveState]'
           delay: 1m
@@ -122,8 +123,8 @@ zabbix_export:
           triggers:
             - uuid: 480f7d434e3043529ee51b7f6697773e
               expression: 'last(/Template Astra Linux Basic/systemd.unit.info[auditd.service,ActiveState])<>"active"'
-              name: 'Audit: auditd service is not active'
-              opdata: 'Current state: {ITEM.LASTVALUE}'
+              name: 'Аудит: служба auditd не активна'
+              opdata: 'Текущее состояние: {ITEM.LASTVALUE}'
               priority: HIGH
               tags:
                 - tag: scope
@@ -133,7 +134,7 @@ zabbix_export:
                 - tag: control
                   value: availability
         - uuid: 408dc5e524874e149ba8f53f537da7de
-          name: 'Time sync: systemd-timesyncd active state'
+          name: 'Синхронизация времени: состояние службы systemd-timesyncd'
           type: ZABBIX_ACTIVE
           key: 'systemd.unit.info[systemd-timesyncd.service,ActiveState]'
           delay: 1m
@@ -150,8 +151,8 @@ zabbix_export:
           triggers:
             - uuid: 6d62336364f54ca49960b202d270c220
               expression: 'last(/Template Astra Linux Basic/systemd.unit.info[systemd-timesyncd.service,ActiveState])<>"active"'
-              name: 'Time sync: systemd-timesyncd service is not active'
-              opdata: 'Current state: {ITEM.LASTVALUE}'
+              name: 'Синхронизация времени: служба systemd-timesyncd не активна'
+              opdata: 'Текущее состояние: {ITEM.LASTVALUE}'
               priority: WARNING
               tags:
                 - tag: scope
@@ -161,7 +162,7 @@ zabbix_export:
                 - tag: control
                   value: availability
         - uuid: c20a4246a6f8462b9c68fe03daf3a28d
-          name: 'Updates: astra-update-service active state'
+          name: 'Обновления: состояние службы astra-update-service'
           type: ZABBIX_ACTIVE
           key: 'systemd.unit.info[astra-update-service.service,ActiveState]'
           delay: 1m
@@ -178,8 +179,8 @@ zabbix_export:
           triggers:
             - uuid: 387e7d1c25c545b9b3ed966c97ac417a
               expression: 'last(/Template Astra Linux Basic/systemd.unit.info[astra-update-service.service,ActiveState])<>"active"'
-              name: 'Updates: astra-update-service is not active'
-              opdata: 'Current state: {ITEM.LASTVALUE}'
+              name: 'Обновления: служба astra-update-service не активна'
+              opdata: 'Текущее состояние: {ITEM.LASTVALUE}'
               priority: WARNING
               tags:
                 - tag: scope
@@ -189,7 +190,7 @@ zabbix_export:
                 - tag: control
                   value: availability
         - uuid: 220dcff3c3c84ee69275509df000ab2c
-          name: 'Dr.Web: today database file modification time'
+          name: 'Dr.Web: время изменения файла актуальной базы'
           type: ZABBIX_ACTIVE
           key: 'vfs.file.time[/var/opt/drweb.com/bases/dwrtoday.vdb,modify]'
           delay: 1h
@@ -207,8 +208,8 @@ zabbix_export:
           triggers:
             - uuid: 7c797227da5e49428c889b10dd80bd3e
               expression: 'now()-last(/Template Astra Linux Basic/vfs.file.time[/var/opt/drweb.com/bases/dwrtoday.vdb,modify])>{$DRWEB.BASES.MAXAGE} and nodata(/Template Astra Linux Basic/vfs.file.time[/var/opt/drweb.com/bases/dwrtoday.vdb,modify],{$DRWEB.BASES.NODATA})=0'
-              name: 'Dr.Web: today database file was not updated recently'
-              opdata: 'File modification time: {ITEM.LASTVALUE}'
+              name: 'Dr.Web: файл актуальной базы давно не обновлялся'
+              opdata: 'Время изменения файла: {ITEM.LASTVALUE}'
               priority: WARNING
               tags:
                 - tag: scope
@@ -220,7 +221,7 @@ zabbix_export:
       macros:
         - macro: '{$DRWEB.BASES.MAXAGE}'
           value: 2d
-          description: 'Maximum allowed age of the Dr.Web today database file modification time.'
+          description: 'Максимально допустимый возраст времени изменения файла актуальной базы Dr.Web.'
         - macro: '{$DRWEB.BASES.NODATA}'
           value: 2h
-          description: 'How long Dr.Web database file time may be absent before suppressing the stale database trigger.'
+          description: 'Допустимое время отсутствия данных о файле базы Dr.Web, при котором подавляется триггер устаревшей базы.'
