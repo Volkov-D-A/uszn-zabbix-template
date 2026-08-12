@@ -44,7 +44,7 @@ zabbix_export:
                 - tag: control
                   value: inventory
         - uuid: 8ac3ee7699ce4ab2bef493a721f99c14
-          name: 'Linux: версия ядра'
+          name: 'Astra Linux: версия ядра'
           type: ZABBIX_ACTIVE
           key: 'system.sw.os[full]'
           delay: 1h
@@ -66,7 +66,7 @@ zabbix_export:
           triggers:
             - uuid: 1daf688f924b4aeaacb978142f929a28
               expression: 'change(/Template Astra Linux Basic/system.sw.os[full])=1'
-              name: 'Linux: изменилась версия ядра'
+              name: 'Astra Linux: изменилась версия ядра'
               opdata: 'Текущая версия: {ITEM.LASTVALUE}'
               priority: INFO
               manual_close: 'YES'
@@ -106,7 +106,7 @@ zabbix_export:
                 - tag: control
                   value: availability
         - uuid: 7aa4d0cfc9dc49d8aac440089a00c66a
-          name: 'Аудит: состояние службы auditd'
+          name: 'Astra Linux: состояние службы auditd'
           type: ZABBIX_ACTIVE
           key: 'systemd.unit.info[auditd.service,ActiveState]'
           delay: 1m
@@ -123,7 +123,7 @@ zabbix_export:
           triggers:
             - uuid: 480f7d434e3043529ee51b7f6697773e
               expression: 'last(/Template Astra Linux Basic/systemd.unit.info[auditd.service,ActiveState])<>"active"'
-              name: 'Аудит: служба auditd не активна'
+              name: 'Astra Linux: служба auditd не активна'
               opdata: 'Текущее состояние: {ITEM.LASTVALUE}'
               priority: HIGH
               tags:
@@ -134,7 +134,7 @@ zabbix_export:
                 - tag: control
                   value: availability
         - uuid: 408dc5e524874e149ba8f53f537da7de
-          name: 'Синхронизация времени: состояние службы systemd-timesyncd'
+          name: 'Astra Linux: состояние службы systemd-timesyncd'
           type: ZABBIX_ACTIVE
           key: 'systemd.unit.info[systemd-timesyncd.service,ActiveState]'
           delay: 1m
@@ -151,7 +151,7 @@ zabbix_export:
           triggers:
             - uuid: 6d62336364f54ca49960b202d270c220
               expression: 'last(/Template Astra Linux Basic/systemd.unit.info[systemd-timesyncd.service,ActiveState])<>"active"'
-              name: 'Синхронизация времени: служба systemd-timesyncd не активна'
+              name: 'Astra Linux: служба systemd-timesyncd не активна'
               opdata: 'Текущее состояние: {ITEM.LASTVALUE}'
               priority: WARNING
               tags:
@@ -162,7 +162,7 @@ zabbix_export:
                 - tag: control
                   value: availability
         - uuid: c20a4246a6f8462b9c68fe03daf3a28d
-          name: 'Обновления: состояние службы astra-update-service'
+          name: 'Astra Linux: состояние службы astra-update-service'
           type: ZABBIX_ACTIVE
           key: 'systemd.unit.info[astra-update-service.service,ActiveState]'
           delay: 1m
@@ -179,7 +179,7 @@ zabbix_export:
           triggers:
             - uuid: 387e7d1c25c545b9b3ed966c97ac417a
               expression: 'last(/Template Astra Linux Basic/systemd.unit.info[astra-update-service.service,ActiveState])<>"active"'
-              name: 'Обновления: служба astra-update-service не активна'
+              name: 'Astra Linux: служба astra-update-service не активна'
               opdata: 'Текущее состояние: {ITEM.LASTVALUE}'
               priority: WARNING
               tags:
