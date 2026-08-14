@@ -44,6 +44,39 @@ zabbix_export:
                   value: audit
                 - tag: control
                   value: event
+        - uuid: 9e7394199afb4d92b1c84bb22ea3bc11
+          name: 'Аудит: события создания и удаления учетных записей'
+          type: ZABBIX_ACTIVE
+          key: 'logrt["/var/log/audit/^audit\.log(\.[0-9]+)?$","^type=(ADD_USER|DEL_USER)[[:space:]]","UTF-8",1000,skip]'
+          delay: 30s
+          history: 30d
+          trends: '0'
+          value_type: LOG
+          description: 'Исходные записи ADD_USER и DEL_USER о создании и удалении учетных записей. Запись содержит числовой id объекта, auid инициатора, исполняемую программу и результат, но не имя учетной записи.'
+          tags:
+            - tag: scope
+              value: security
+            - tag: component
+              value: audit
+            - tag: control
+              value: event
+          triggers:
+            - uuid: 4fac270d07e542d381965876b2054bc8
+              expression: 'find(/Template Astra Linux Audit/logrt["/var/log/audit/^audit\.log(\.[0-9]+)?$","^type=(ADD_USER|DEL_USER)[[:space:]]","UTF-8",1000,skip],,"regexp","^type=(ADD_USER|DEL_USER)[[:space:]]")=1'
+              name: 'Аудит: обнаружено создание или удаление учетной записи'
+              opdata: 'Событие: {{ITEM.VALUE}.regsub("(.*)", \1)}'
+              priority: INFO
+              description: 'Обнаружено создание или удаление учетной записи. Проверьте исходную строку в оперативных данных, определите инициатора по `auid`, характер операции и ее результат, затем закройте проблему вручную. Остальные строки доступны в истории элемента данных.'
+              type: MULTIPLE
+              recovery_mode: NONE
+              manual_close: 'YES'
+              tags:
+                - tag: scope
+                  value: security
+                - tag: component
+                  value: audit
+                - tag: control
+                  value: event
         - uuid: f61b54a50bf549f18d62601b8056bcbc
           name: 'Аудит: количество ошибок службы auditd'
           type: ZABBIX_ACTIVE
